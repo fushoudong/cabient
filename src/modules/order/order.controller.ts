@@ -72,7 +72,7 @@ export class OrderController {
   }
 
   @ApiConsumes('application/json')
-  @ApiOperation({ summary: '修改订单状态' })
+  @ApiOperation({ summary: '修改订单状态 ' })
   @Post('updateOrderStatus')
   updateOrderStatus(@Body() updateDto: UpdateDto) {
     return this.orderService.updateOrderStatus(updateDto);
