@@ -5,10 +5,4 @@ export class UpdateDto {
     description: 'id',
   })
   id: string;
-
-  @ApiProperty({
-    required: true,
-    description: '密码',
-  })
-  status: number;
 }

@@ -34,6 +34,7 @@ export class LoginService {
       return {
         msg: 'success',
         errcode: 0,
+        id: result[0].id,
       };
     } else {
       throw new BadRequestException({

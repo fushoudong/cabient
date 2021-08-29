@@ -4,8 +4,11 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/login/user.entity';
 import { Cabient } from './modules/cabient/cabient.entity';
+import { Order } from './modules/order/order.entity';
+import { Cabient as NewCabient } from './modules/order/cabient.entity';
 import { LoginModule } from './modules/login/login.module';
 import { CabientModule } from './modules/cabient/cabient.module';
+import { OrderModule } from './modules/order/order.module';
 
 @Module({
   imports: [
@@ -13,7 +16,7 @@ import { CabientModule } from './modules/cabient/cabient.module';
       useFactory: async () => {
         return {
           type: 'mysql',
-          entities: [User, Cabient],
+          entities: [User, Cabient, NewCabient, Order],
           host: '127.0.0.1',
           port: 3306,
           username: 'root',
@@ -27,6 +30,7 @@ import { CabientModule } from './modules/cabient/cabient.module';
     }),
     LoginModule,
     CabientModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],

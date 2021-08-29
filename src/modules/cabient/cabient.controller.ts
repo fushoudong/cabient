@@ -21,15 +21,9 @@ export class CabientController {
   }
 
   @ApiConsumes('application/json')
-  @ApiOperation({ summary: '开柜子' })
+  @ApiOperation({ summary: '开柜子 [10901大｜10902中｜10903小｜10904超小]' })
   @Post('openCabient')
   openCabient(@Body() updateDto: UpdateDto) {
     return this.cabientService.openCabient(updateDto);
-  }
-  @ApiConsumes('application/json')
-  @ApiOperation({ summary: '开柜子' })
-  @Get('insertBaseCabientInfo')
-  insertBaseCabientInfo(@Query() query) {
-    return this.cabientService.insertBaseCabientInfo(query);
   }
 }

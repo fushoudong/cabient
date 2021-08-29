@@ -22,34 +22,64 @@ export class CabientService {
   async getCabientList(query) {
     const list = ['type', 'status', 'user'];
     const queryList = list.filter(
-      (key) => query[key] !== '' || query[key] !== undefined,
+      (key) => query[key] !== '' && query[key] !== undefined,
     );
     let connection = await getConnection()
       .createQueryBuilder()
       .from(Cabient, '');
+    console.log('queryList', queryList);
     queryList.forEach((key, index) => {
       if (index === 0) {
-        connection = connection.where(`${key} = : ${key}`, {
+        connection = connection.where(`${key} = :${key}`, {
           [key]: query[key],
         });
       } else {
-        connection = connection.andWhere(`${key} = : ${key}`, {
+        connection = connection.andWhere(`${key} = :${key}`, {
           [key]: query[key],
         });
       }
     });
     const result = await connection.getRawMany();
-    if (result.length > 0) {
+
+    if (result) {
       return {
         msg: 'success',
         errcode: 0,
+        data: {
+          list: result,
+          info: {
+            big: {
+              left: result.filter(
+                (item) => item.type === 10901 && item.status === 0,
+              )?.length,
+              total: result.filter((item) => item.type === 10901)?.length,
+            },
+            middle: {
+              left: result.filter(
+                (item) => item.type === 10902 && item.status === 0,
+              )?.length,
+              total: result.filter((item) => item.type === 10902)?.length,
+            },
+            small: {
+              left: result.filter(
+                (item) => item.type === 10903 && item.status === 0,
+              )?.length,
+              total: result.filter((item) => item.type === 10903)?.length,
+            },
+            tiny: {
+              left: result.filter(
+                (item) => item.type === 10904 && item.status === 0,
+              )?.length,
+              total: result.filter((item) => item.type === 10904)?.length,
+            },
+          },
+        },
       };
-    } else {
-      throw new BadRequestException({
-        errcode: -1,
-        msg: '获取失败，网络连接失败！',
-      });
     }
+    throw new BadRequestException({
+      errcode: -1,
+      msg: '获取失败，网络连接失败！',
+    });
   }
 
   /**
@@ -67,7 +97,7 @@ export class CabientService {
       .from(Cabient, '')
       .where('id = :id', { id })
       .getCount();
-    if (currentCount > 0) {
+    if (currentCount === 0) {
       throw new BadRequestException({
         errcode: 10001,
         msg: '当前柜体编号不存在！',
@@ -77,7 +107,7 @@ export class CabientService {
       .createQueryBuilder()
       .update(Cabient)
       .set({
-        status: 0,
+        status: 1,
         user: '',
       })
       .where('id = :id', {
@@ -112,5 +142,6 @@ export class CabientService {
         .values(cabient)
         .execute();
     }
+    return '新增成果';
   }
 }

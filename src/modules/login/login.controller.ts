@@ -1,5 +1,5 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
-import { ApiConsumes, ApiQuery, ApiTags, ApiOperation } from '@nestjs/swagger';
+import { Controller, Post, Body } from '@nestjs/common';
+import { ApiConsumes, ApiTags, ApiOperation } from '@nestjs/swagger';
 import { LoginService } from './login.service';
 import { LoginDto, ForgetDto } from './login_dto';
 @ApiTags('login')
